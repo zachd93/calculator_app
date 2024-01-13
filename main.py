@@ -31,14 +31,14 @@ class PyCalcWindow(QMainWindow):
     def _createButtons(self):
         self.buttonMap = {}
         buttonsLayout = QGridLayout()
-        KeyBoard = [
+        keyBoard = [
             ["7", "8", "9", "/", "C"],
             ["4", "5", "6", "*", "("],
             ["1", "2", "3", "-", ")"],
             ["0", "00", ".", "+", "="],
         ]
 
-        for row, keys in enumerate(KeyBoard):
+        for row, keys in enumerate(keyBoard):
             for col, key in enumerate(keys):
                 self.buttonMap[key] = QPushButton(key)
                 self.buttonMap[key].setFixedSize(BUTTON_SIZE, BUTTON_SIZE)
@@ -56,19 +56,22 @@ class PyCalcWindow(QMainWindow):
         return self.display.text()
 
     def clearDisplay(self):
-        """Clear the display"""
+        """Clear the display."""
         self.setDisplayText("")
 
-    def evaluateExpression(expression):
-        try:
-            result = str(eval(expression, {}, {}))
-        except Exception:
-            result = ERROR_MSG
-            return result
+
+def evaluateExpression(expression):
+    """Evaluate an expression (Model)."""
+    try:
+        result = str(eval(expression, {}, {}))
+    except Exception:
+        result = ERROR_MSG
+    return result
 
 
 class PyCalc:
-    """PyCalc controller class"""
+    """PyCalc's controller class."""
+
     def __init__(self, model, view):
         self._evaluate = model
         self._view = view
@@ -96,10 +99,11 @@ class PyCalc:
 
 
 def main():
+    """PyCalc's main function."""
     pycalcApp = QApplication([])
     pycalcWindow = PyCalcWindow()
     pycalcWindow.show()
-    PyCalc(model=pycalcWindow.evaluateExpression, view=pycalcWindow)
+    PyCalc(model=evaluateExpression, view=pycalcWindow)
     sys.exit(pycalcApp.exec())
 
 
